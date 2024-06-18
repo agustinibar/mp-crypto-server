@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createPayment } from '../handlers/paymentHandlers.mjs'; // Asegúrate de usar la extensión .mjs
+import { createPayment } from '../handlers/paymentHandler.mjs'; 
 
 export const router = Router();
 

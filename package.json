@@ -2,9 +2,11 @@
   "name": "mp-crypto-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.mjs",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+     "start": "node --experimental-modules src/index.mjs",
+    "dev": "nodemon --experimental-modules src/index.mjs"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "mercadopago": "^2.0.9",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.3"
   }
 }

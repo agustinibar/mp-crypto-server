@@ -2,7 +2,7 @@
 // import { db } from '../../../src/config/firebase.js'
 
 import mercadopago from 'mercadopago';
-import 'dotenv/config';
+
  
 mercadopago.configure({
     access_token:"APP_USR-990485322663201-061813-37f376d0101df8a4a88cfe462b2a54bc-1863667496",

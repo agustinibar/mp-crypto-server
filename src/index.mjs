@@ -1,5 +1,5 @@
 import express from 'express';
-import payment from '../src/routes/payment.mjs'; // Asegúrate de usar la extensión .mjs
+import payment from '../src/routes/payment.mjs'; 
 import morgan from 'morgan';
 import cors from 'cors';
 
