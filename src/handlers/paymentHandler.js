@@ -1,10 +1,10 @@
-import { MercadoPagoConfig, Preference} from 'mercadopago';
+const {MercadoPagoConfig, Preference} = require('mercadopago');
 
-const client = new MercadoPagoConfig({ accessToken: ''})
+const client = new MercadoPagoConfig({ accessToken: 'APP_USR-990485322663201-061813-37f376d0101df8a4a88cfe462b2a54bc-1863667496'})
 
 const preference = new Preference(client);
 
-export const createPayment = async(req, res)=>{
+const createPayment = async(req, res)=>{
     try {
         preference.create({
             body:{
@@ -24,6 +24,9 @@ export const createPayment = async(req, res)=>{
     }
 }
 
+module.exports = {
+    createPayment
+}
 // export const createPayment = async(req, res)=>{
 //     let preference = {
 //         items: [

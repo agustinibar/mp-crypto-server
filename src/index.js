@@ -1,8 +1,7 @@
-import express from 'express';
-import payment from '../src/routes/payment.mjs'; 
-import morgan from 'morgan';
-import cors from 'cors';
-
+const express = require('express');
+const payment = require('../src/routes/payment');
+const morgan =require('morgan');
+const cors = require('cors')
 const app = express();
 
 app.use(express.json());

@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { createPayment } from '../handlers/paymentHandler.mjs'; 
+const express = require('express');
+const { createPayment } = require('../handlers/paymentHandler.js');
 
-export const router = Router();
+ const router = express();
 
 router.get('/', (req, res)=> res.send("We have apiMercadoPago"));
 
@@ -15,4 +15,4 @@ router.get('/pending', (req, res) => res.send("pending"));
 
 // router.post('/webhook', listenWebHook);
 
-export default router;
+module.exports= router
