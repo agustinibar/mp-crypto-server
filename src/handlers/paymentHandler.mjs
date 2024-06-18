@@ -1,38 +1,54 @@
-// import {collection, addDoc, serverTimestamp} from 'firebase/firestore'
-// import { db } from '../../../src/config/firebase.js'
+import { MercadoPagoConfig, Preference} from 'mercadopago';
 
-import mercadopago from 'mercadopago';
+const client = new MercadoPagoConfig({ accessToken: ''})
 
- 
-mercadopago.configure({
-    access_token:"APP_USR-990485322663201-061813-37f376d0101df8a4a88cfe462b2a54bc-1863667496",
-})
+const preference = new Preference(client);
 
 export const createPayment = async(req, res)=>{
-    let preference = {
-        items: [
-          {
-            title: req.body.description,
-            unit_price: Number(req.body.price),
-            quantity: Number(req.body.quantity),
-          },
-        ],
-        back_urls: {
-            success:`https://api.whatsapp.com/send?phone=543487729882&text=He%20pedido%20${encodeURIComponent(req.body.description)},%20por%20donde%20podria%20buscar%20los%20productos%3F`,
-            failure: `https://api.whatsapp.com/send?phone=543487729882&text=He%20querido%20comprar%20${encodeURIComponent(req.body.description)}%20pero%20el%20pago%20ha%20fallado,%20podrían%20ayudarme%3F`,
-        },
-        auto_return: "approved"
-      };
+    try {
+        preference.create({
+            body:{
+                items:[
+                    {
+                        title:req.body.tittle,
+                        unit_price:Number(req.body.price),
+                        quantity:Number(req.body.quantity)
+                    }
+                ]
+            }
+        }).then(console.log)
+        .catch(console.log);
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// export const createPayment = async(req, res)=>{
+//     let preference = {
+//         items: [
+//           {
+//             title: req.body.description,
+//             unit_price: Number(req.body.price),
+//             quantity: Number(req.body.quantity),
+//           },
+//         ],
+//         back_urls: {
+//             success:`https://api.whatsapp.com/send?phone=543487729882&text=He%20pedido%20${encodeURIComponent(req.body.description)},%20por%20donde%20podria%20buscar%20los%20productos%3F`,
+//             failure: `https://api.whatsapp.com/send?phone=543487729882&text=He%20querido%20comprar%20${encodeURIComponent(req.body.description)}%20pero%20el%20pago%20ha%20fallado,%20podrían%20ayudarme%3F`,
+//         },
+//         auto_return: "approved"
+//       };
     
-      mercadopago.preferences
-  .create(preference)
-  .then(function (response) {
-    res.json({id : response.body.id})
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-};
+//       mercadopago.preferences
+//   .create(preference)
+//   .then(function (response) {
+//     res.json({id : response.body.id})
+//   })
+//   .catch(function (error) {
+//     console.log(error);
+//   });
+// };
 // try {
 //   const result = await mercadopago.preferences.create({
 //       items:[
