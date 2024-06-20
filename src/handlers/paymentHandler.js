@@ -10,7 +10,7 @@ const createPayment = async (req, res)=>{
             items:[
                 {
                     tittle: req.body.description,
-                    unit_price: Number(req.body.price),
+                    unit_price: req.body.price,
                     quantity: 1,
                     currency_id: "ARS",
                 }
