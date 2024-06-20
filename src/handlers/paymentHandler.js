@@ -14,7 +14,7 @@ const preference = new Preference(client);
 const createPayment = async (req, res) => {
     try {
         const { description, price } = req.body;
-        
+
         if (!description || !price) {
             return res.status(400).json({ error: 'Description and price are required' });
         }
@@ -36,12 +36,12 @@ const createPayment = async (req, res) => {
 
         const response = await preference.create({ body: preferenceData });
 
-        if (!response || !response.body || !response.body.id) {
+        if (response && response.body && response.body.id) {
+            res.json({ id: response.body.id });
+        } else {
             console.log('Invalid response from MercadoPago:', response);
-            return res.status(500).json({ error: 'Failed to create payment preference' });
+            res.status(500).json({ error: 'Failed to create payment preference' });
         }
-
-        res.json({ id: response.body.id });
     } catch (error) {
         console.error('Error creating payment preference:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -51,6 +51,7 @@ const createPayment = async (req, res) => {
 module.exports = {
     createPayment
 };
+
 
 // export const createPayment = async(req, res)=>{
 //     let preference = {
