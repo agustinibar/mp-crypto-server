@@ -16,7 +16,7 @@ const createPayment = async (req, res)=>{
                 }
             ],
             back_urls: {
-                success: "https://www.instagram.com/",
+                success: "http://localhost:5173/wallet",
                 failure: "https://www.instagram.com/",
                 pending: "https://www.instagram.com/",
             },
