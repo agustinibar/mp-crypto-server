@@ -1,3 +1,11 @@
+//     items:[
+//         {
+//             title:req.body.tittle,
+//             unit_price:Number(req.body.price),
+//             quantity:Number(req.body.quantity)
+//         }
+//     ]
+// }
 const {MercadoPagoConfig, Preference} = require('mercadopago');
 
 const client = new MercadoPagoConfig({ accessToken: 'APP_USR-990485322663201-061813-37f376d0101df8a4a88cfe462b2a54bc-1863667496'})
@@ -8,40 +16,34 @@ const createPayment = async(req, res)=>{
     try {
         preference.create({
             body:{
-                items:[
-                    {
-                        title:req.body.tittle,
-                        unit_price:Number(req.body.price),
-                        quantity:Number(req.body.quantity)
+                items: [
+                              {
+                                title: req.body.description,
+                                unit_price:req.body.price,
+                                quantity: Number(req.body.quantity),
+                              },
+                            ],
+                            back_urls: {
+                                success:`http://localhost:5173/wallet`,
+                                failure: `http://localhost:5173/wallet`,
+                            },
+                            auto_return: "approved"
+                          }
+                        }).then(function (response) {
+                                res.json({id : response.body.id})
+                              })
+                        .catch(console.log);
+                    } catch (error) {
+                        console.log(error)
                     }
-                ]
-            }
-        }).then(console.log)
-        .catch(console.log);
-        res.json({id : response.body.id})
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-module.exports = {
-    createPayment
-}
+                }
+                
+                module.exports = {
+                    createPayment
+                }
 // export const createPayment = async(req, res)=>{
 //     let preference = {
-//         items: [
-//           {
-//             title: req.body.description,
-//             unit_price: Number(req.body.price),
-//             quantity: Number(req.body.quantity),
-//           },
-//         ],
-//         back_urls: {
-//             success:`https://api.whatsapp.com/send?phone=543487729882&text=He%20pedido%20${encodeURIComponent(req.body.description)},%20por%20donde%20podria%20buscar%20los%20productos%3F`,
-//             failure: `https://api.whatsapp.com/send?phone=543487729882&text=He%20querido%20comprar%20${encodeURIComponent(req.body.description)}%20pero%20el%20pago%20ha%20fallado,%20podrían%20ayudarme%3F`,
-//         },
-//         auto_return: "approved"
-//       };
+//        
     
 //       mercadopago.preferences
 //   .create(preference)
@@ -52,6 +54,8 @@ module.exports = {
 //     console.log(error);
 //   });
 // };
+
+
 // try {
 //   const result = await mercadopago.preferences.create({
 //       items:[
