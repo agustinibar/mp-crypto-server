@@ -19,8 +19,8 @@ const createPayment = async(req, res)=>{
                 items: [
                               {
                                 title: req.body.description,
-                                unit_price:req.body.price,
-                                quantity: Number(req.body.quantity),
+                                unit_price:Number(req.body.price),
+                                quantity:1,
                               },
                             ],
                             back_urls: {
