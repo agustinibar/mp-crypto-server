@@ -18,7 +18,7 @@ const createPayment = async(req, res)=>{
             }
         }).then(console.log)
         .catch(console.log);
-        
+        res.json({id : response.body.id})
     } catch (error) {
         console.log(error)
     }
