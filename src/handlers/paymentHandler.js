@@ -6,41 +6,52 @@
 //         }
 //     ]
 // }
-const {MercadoPagoConfig, Preference} = require('mercadopago');
+const { MercadoPagoConfig, Preference } = require('mercadopago');
 
-const client = new MercadoPagoConfig({ accessToken: 'APP_USR-990485322663201-061813-37f376d0101df8a4a88cfe462b2a54bc-1863667496'})
-
+const client = new MercadoPagoConfig({ accessToken: 'APP_USR-990485322663201-061813-37f376d0101df8a4a88cfe462b2a54bc-1863667496' });
 const preference = new Preference(client);
 
-const createPayment = async(req, res)=>{
+const createPayment = async (req, res) => {
     try {
-        preference.create({
-            body:{
-                items: [
-                              {
-                                title: req.body.description,
-                                unit_price:Number(req.body.price),
-                                quantity:1,
-                              },
-                            ],
-                            back_urls: {
-                                success:`http://localhost:5173/wallet`,
-                                failure: `http://localhost:5173/wallet`,
-                            },
-                            auto_return: "approved"
-                          }
-                        }).then(function (response) {
-                                res.json({id : response.body.id})
-                              })
-                        .catch(console.log);
-                    } catch (error) {
-                        console.log(error)
-                    }
-                }
-                
-                module.exports = {
-                    createPayment
-                }
+        const { description, price } = req.body;
+        
+        if (!description || !price) {
+            return res.status(400).json({ error: 'Description and price are required' });
+        }
+
+        const preferenceData = {
+            items: [
+                {
+                    title: description,
+                    unit_price: Number(price),
+                    quantity: 1,
+                },
+            ],
+            back_urls: {
+                success: `http://localhost:5173/wallet`,
+                failure: `http://localhost:5173/wallet`,
+            },
+            auto_return: "approved"
+        };
+
+        const response = await preference.create({ body: preferenceData });
+
+        if (!response || !response.body || !response.body.id) {
+            console.log('Invalid response from MercadoPago:', response);
+            return res.status(500).json({ error: 'Failed to create payment preference' });
+        }
+
+        res.json({ id: response.body.id });
+    } catch (error) {
+        console.error('Error creating payment preference:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+module.exports = {
+    createPayment
+};
+
 // export const createPayment = async(req, res)=>{
 //     let preference = {
 //        
