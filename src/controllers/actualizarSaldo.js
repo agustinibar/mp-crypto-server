@@ -7,9 +7,9 @@ const actualizarSaldoUsuario = async (userId, amount) => {
       const userDoc = await getDoc(userRef);
   
       if (userDoc.exists()) {
-        const currentSaldo = userDoc.data().saldo || 0;
+        const currentBalance = userDoc.data().balance || 0;
         await updateDoc(userRef, {
-          saldo: currentSaldo + amount
+          balance: currentBalance + amount
         });
       } else {
         console.log("No se encontro un documento!");
