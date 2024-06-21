@@ -1,11 +1,15 @@
 
 const { MercadoPagoConfig, Preference } = require('mercadopago');
+const { actualizarSaldoUsuario } = require('../controllers/actualizarSaldo');
 
 const client = new MercadoPagoConfig({ accessToken: 'APP_USR-990485322663201-061813-37f376d0101df8a4a88cfe462b2a54bc-1863667496' });
 
 
 const createPayment = async (req, res)=>{
      try {
+        const userId = req.body.user_id;
+        const amount = req.body.price;
+        
         const body = {
             items:[
                 {
@@ -13,6 +17,7 @@ const createPayment = async (req, res)=>{
                     unit_price: req.body.price,
                     quantity: 1,
                     currency_id: "ARS",
+                    id: req.body.user_id,
                 }
             ],
             back_urls: {
@@ -25,6 +30,7 @@ const createPayment = async (req, res)=>{
 
         const preference = new Preference(client);
         const result = await preference.create({ body })
+        await actualizarSaldoUsuario(userId, amount)
         res.json({
             id: result.id,
         })
@@ -36,7 +42,14 @@ const createPayment = async (req, res)=>{
      }
 }
 
+
+
 module.exports = { createPayment }
+
+
+
+
+
 // const createPayment = async (req, res) => {
 //     try {
 //         const { description, price } = req.body;
